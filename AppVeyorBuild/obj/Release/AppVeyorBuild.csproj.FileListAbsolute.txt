@@ -1,6 +1,0 @@
-\\Mac\Home\Documents\code\AppVeyorDeployTest\AppVeyorBuild\bin\Release\AppVeyorBuild.dll
-\\Mac\Home\Documents\code\AppVeyorDeployTest\AppVeyorBuild\bin\Release\AppVeyorBuild.pdb
-\\Mac\Home\Documents\code\AppVeyorDeployTest\AppVeyorBuild\obj\Release\AppVeyorBuild.csprojResolveAssemblyReference.cache
-\\Mac\Home\Documents\code\AppVeyorDeployTest\AppVeyorBuild\obj\Release\AppVeyorBuild.dll
-\\Mac\Home\Documents\code\AppVeyorDeployTest\AppVeyorBuild\obj\Release\AppVeyorBuild.pdb
-\\Mac\Home\Documents\code\AppVeyorDeployTest\AppVeyorBuild\bin\Release\AppVeyorBuild.XML
