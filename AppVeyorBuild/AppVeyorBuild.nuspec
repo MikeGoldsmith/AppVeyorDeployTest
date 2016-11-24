@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>AppVeyorBuilder</id>
+    <version>1.0.1</version>
+    <title>AppVeyorBuild</title>
+    <authors>Mike Goldsmith</authors>
+    <owners>Mike Goldsmith</owners>
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Build tester.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Build Test</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\AppVeyorBuild.dll" target="lib\netstandard1.4\AppVeyorBuild.dll" />
+    <file src="bin\Release\AppVeyorBuild.xml" target="lib\netstandard1.4\AppVeyorBuild.xml" />
+  </files>
+</package>

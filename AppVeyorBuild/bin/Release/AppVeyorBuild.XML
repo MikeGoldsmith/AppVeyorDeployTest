@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AppVeyorBuild</name>
+    </assembly>
+    <members>
+        <member name="T:AppVeyorBuild.Logger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AppVeyorBuild.Logger.Log(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+    </members>
+</doc>
