@@ -13,9 +13,9 @@
     <tags>Build Test</tags>
   </metadata>
   <files>
-    <file src="bin\$configuration$\AppVeyorBuild.dll" target="lib\netstandard1.4\AppVeyorBuild.dll" />
-    <file src="bin\$configuration$\AppVeyorBuild.xml" target="lib\netstandard1.4\AppVeyorBuild.xml" />
-    <file src="bin\$configuration$\AppVeyorBuild.dll" target="lib\net45\AppVeyorBuild.dll" />
-    <file src="bin\$configuration$\AppVeyorBuild.xml" target="lib\net45\AppVeyorBuild.xml" />
+    <file src="bin\Release\AppVeyorBuild.dll" target="lib\netstandard1.4\AppVeyorBuild.dll" />
+    <file src="bin\Release\AppVeyorBuild.xml" target="lib\netstandard1.4\AppVeyorBuild.xml" />
+    <file src="bin\Release\AppVeyorBuild.dll" target="lib\net45\AppVeyorBuild.dll" />
+    <file src="bin\Release\AppVeyorBuild.xml" target="lib\net45\AppVeyorBuild.xml" />
   </files>
 </package>
