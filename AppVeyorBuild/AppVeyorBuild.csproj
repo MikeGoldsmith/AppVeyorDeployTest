@@ -37,7 +37,9 @@
     <DocumentationFile>bin\Release\AppVeyorBuild.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="AppVeyorBuild.nuspec" />
+    <None Include="AppVeyorBuild.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="project.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
