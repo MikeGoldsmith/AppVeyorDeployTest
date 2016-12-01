@@ -1,10 +1,7 @@
 version: 2.1.4.{build}
 configuration: Release
 init:
-- ps: >-
-    if ($env:APPVEYOR_REPO_TAG -eq "true") {
-      Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME".TrimStart("v");
-    }
+- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME".TrimStart("v")
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -17,30 +14,18 @@ environment:
   SnkSecret:
     secure: j9oVsjzAy5p4Te5FdRAuZQ==
 install:
-- ps: >-
-    appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe;
-    if ($env:APPVEYOR_REPO_TAG -eq "true") {
-      nuget install secure-file -ExcludeVersion;
-      .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk;
-    }
+- ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe
+- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") nuget install secure-file -ExcludeVersion
 before_build:
-- ps: >-
-    nuget restore;
-    if ($env:APPVEYOR_REPO_TAG -eq "true") {
-      $filepath = ".\AppVeyorBuild\Properties\AssemblyInfo.cs";
-      # Remove any InternalsVisibleTo atrributes
-      (Get-Content $filepath) | Where { $_ -notmatch "^\[assembly: InternalsVisibleTo" } | out-file $filepath;
-      # Add Signing key attribute
-      Add-Content $filepath '[assembly: AssemblyKeyFile("AppVeyorBuild.snk")]';
-    }
+- ps: nuget restore;
+- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk
+- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") (Get-Content ".\AppVeyorBuild\Properties\AssemblyInfo.cs") | Where { $_ -notmatch "^\[assembly: InternalsVisibleTo" } | out-file ".\AppVeyorBuild\Properties\AssemblyInfo.cs"
+- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") Add-Content $filepath '[assembly: AssemblyKeyFile("AppVeyorBuild.snk")]'
 build:
   verbosity: minimal
 after_build:
-- ps: >-
-    if ($env:APPVEYOR_REPO_TAG -eq "true") {
-      nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION";
-      nuget push *.nupkg $env:NugetApiKey -Source https://www.nuget.org/api/v2/package;
-    }
+- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION"
+- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") nuget push *.nupkg $env:NugetApiKey -Source https://www.nuget.org/api/v2/package
 test: off
 artifacts:
 - path: .\AppVeyorBuild\bin\Release
