@@ -19,7 +19,6 @@ environment:
 install:
 - ps: >-
     appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe
-
     if ($env:APPVEYOR_REPO_TAG -eq "true") {
       nuget install secure-file -ExcludeVersion
       .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk
@@ -27,11 +26,7 @@ install:
 before_build:
 - ps: >-
     nuget restore
-
-
-    if ($env:APPVEYOR_REPO_TAG -eq "true")
-
-    {
+    if ($env:APPVEYOR_REPO_TAG -eq "true") {
       $filepath = ".\AppVeyorBuild\Properties\AssemblyInfo.cs"
       # Remove any InternalsVisibleTo atrributes
       (Get-Content $filepath) | Where { $_ -notmatch "^\[assembly: InternalsVisibleTo" } | out-file $filepath
@@ -42,9 +37,7 @@ build:
   verbosity: minimal
 after_build:
 - ps: >-
-    if ($env:APPVEYOR_REPO_TAG -eq "true")
-
-    {
+    if ($env:APPVEYOR_REPO_TAG -eq "true") {
       nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION"
       nuget push *.nupkg $env:NugetApiKey -Source https://www.nuget.org/api/v2/package
     }
