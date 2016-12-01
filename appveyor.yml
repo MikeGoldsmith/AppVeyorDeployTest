@@ -51,7 +51,7 @@ after_build:
 test: off
 artifacts:
 - path: .\AppVeyorBuild\bin
-  name: AppVeyorBuild.zip
+  name: AppVeyorBuild
 deploy:
 - provider: GitHub
   auth_token:
