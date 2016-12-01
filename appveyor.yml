@@ -19,7 +19,7 @@ install:
 before_build:
 - ps: nuget restore;
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk }
-- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { (Get-Content ".\AppVeyorBuild\Properties\AssemblyInfo.cs") | Where { $_ -notmatch "^\[assembly: InternalsVisibleTo" } | out-file ".\AppVeyorBuild\Properties\AssemblyInfo.cs" }
+#- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { (Get-Content ".\AppVeyorBuild\Properties\AssemblyInfo.cs") | Where { $_ -notmatch "^\[assembly: InternalsVisibleTo" } | out-file ".\AppVeyorBuild\Properties\AssemblyInfo.cs" }
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { Add-Content $filepath '[assembly: AssemblyKeyFile("AppVeyorBuild.snk")]' }
 build:
   verbosity: minimal
