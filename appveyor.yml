@@ -50,8 +50,8 @@ after_build:
     }
 test: off
 artifacts:
-- path: .\AppVeyorBuild\bin
-  name: AppVeyorBuild
+- path: .\AppVeyorBuild\bin\Release
+  name: AppVeyorBuild.$env:APPVEYOR_BUILD_VERSION
 deploy:
 - provider: GitHub
   auth_token:
