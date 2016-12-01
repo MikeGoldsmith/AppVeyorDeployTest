@@ -53,7 +53,7 @@ artifacts:
 - path: .\AppVeyorBuild\bin\Release
   name: AppVeyorBuild
 before_deploy:
-- ps: Rename-Item AppVeyorBuild.zip AppVeyorBuild.$env:APPVEYOR_BUILD_VERSION.zip
+- ps: Rename-Item '**\AppVeyorBuild.zip' 'AppVeyorBuild.$env:APPVEYOR_BUILD_VERSION.zip'
 deploy:
 - provider: GitHub
   auth_token:
