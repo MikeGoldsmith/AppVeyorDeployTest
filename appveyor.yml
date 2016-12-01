@@ -22,7 +22,7 @@ before_build:
     if ($env:APPVEYOR_REPO_TAG -eq "true") {
       .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk
       (Get-Content ".\AppVeyorBuild\Properties\AssemblyInfo.cs") | Where { $_ -notmatch "^\[assembly: InternalsVisibleTo" } | out-file ".\AppVeyorBuild\Properties\AssemblyInfo.cs"
-      Add-Content $filepath '[assembly: AssemblyKeyFile("AppVeyorBuild.snk")]'
+      Add-Content ".\AppVeyorBuild\Properties\AssemblyInfo.cs" '[assembly: AssemblyKeyFile("AppVeyorBuild.snk")]'
     }
 build:
   verbosity: minimal
