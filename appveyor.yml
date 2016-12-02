@@ -26,12 +26,12 @@ before_build:
     }
 build:
   verbosity: minimal
-after_build:
+test: off
+before_deploy:
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION" }
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget push *.nupkg $env:NugetApiKey -Source https://www.nuget.org/api/v2/package }
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { Compress-Archive -CompressionLevel Optimal -Path .\AppVeyorBuild\bin\Release\* -DestinationPath .\AppVeyorBuild.$env:APPVEYOR_BUILD_VERSION.zip }
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { Push-AppveyorArtifact AppVeyorBuild.$env:APPVEYOR_BUILD_VERSION.zip }
-test: off
 deploy:
 - provider: GitHub
   auth_token:
