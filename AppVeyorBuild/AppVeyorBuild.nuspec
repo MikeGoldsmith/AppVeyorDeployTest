@@ -11,6 +11,11 @@
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Build Test</tags>
+    <dependencies>
+      <group>
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
     <file src="bin\Release\AppVeyorBuild.dll" target="lib\netstandard1.4\AppVeyorBuild.dll" />
