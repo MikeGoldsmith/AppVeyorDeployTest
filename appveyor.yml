@@ -17,7 +17,7 @@ install:
 - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget install secure-file -ExcludeVersion }
 before_build:
-- ps: nuget restore;
+- ps: nuget restore
 - ps: >-
     if ($env:APPVEYOR_REPO_TAG -eq "true") {
       .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk
@@ -25,16 +25,13 @@ before_build:
       Add-Content ".\AppVeyorBuild\Properties\AssemblyInfo.cs" '[assembly: AssemblyKeyFile("AppVeyorBuild.snk")]'
     }
 build:
-  publish_wap: true
   verbosity: minimal
 after_build:
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION" }
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget push *.nupkg $env:NugetApiKey -Source https://www.nuget.org/api/v2/package }
+- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { Compress-Archive .\AppVeyorBuild\bin\Release\* -DestinationPath .\AppVeyorBuild.$env:APPVEYOR_BUILD_VERSION.zip }
+- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { Push-AppveyorArtifact AppVeyorBuild.$env:APPVEYOR_BUILD_VERSION.zip }
 test: off
-artifacts:
-- path: .\AppVeyorBuild\bin\Release
-  name: AppVeyorBuild
-  type: zip
 deploy:
 - provider: GitHub
   auth_token:
