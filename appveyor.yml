@@ -20,7 +20,7 @@ before_build:
 - ps: nuget restore
 - ps: .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk
 build_script:
-- cmd: msbuild AppVeyorBuild.sln /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=AppVeyorBuild.snk
+- cmd: msbuild AppVeyorDeploy.sln /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=AppVeyorBuild.snk
 test: off
 before_deploy:
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION" }
