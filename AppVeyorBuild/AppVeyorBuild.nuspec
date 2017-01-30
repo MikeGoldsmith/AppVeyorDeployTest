@@ -18,8 +18,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\AppVeyorBuild.dll" target="lib\netstandard1.4\AppVeyorBuild.dll" />
-    <file src="bin\Release\AppVeyorBuild.xml" target="lib\netstandard1.4\AppVeyorBuild.xml" />
+    <file src="bin\Release\AppVeyorBuild.dll" target="lib\netstandard1.5\AppVeyorBuild.dll" />
+    <file src="bin\Release\AppVeyorBuild.xml" target="lib\netstandard1.5\AppVeyorBuild.xml" />
     <file src="bin\Release\AppVeyorBuild.dll" target="lib\net45\AppVeyorBuild.dll" />
     <file src="bin\Release\AppVeyorBuild.xml" target="lib\net45\AppVeyorBuild.xml" />
   </files>
