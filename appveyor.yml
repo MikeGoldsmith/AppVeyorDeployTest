@@ -15,15 +15,12 @@ environment:
     secure: j9oVsjzAy5p4Te5FdRAuZQ==
 install:
 - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe
-- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget install secure-file -ExcludeVersion }
+- ps: nuget install secure-file -ExcludeVersion
 before_build:
 - ps: nuget restore
+- ps: .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk
 - ps: >-
-    if ($env:APPVEYOR_REPO_TAG -eq "true") {
-      .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk
-      (Get-Content ".\AppVeyorBuild\Properties\AssemblyInfo.cs") | Where { $_ -notmatch "^\[assembly: InternalsVisibleTo" } | out-file ".\AppVeyorBuild\Properties\AssemblyInfo.cs"
-      Add-Content ".\AppVeyorBuild\Properties\AssemblyInfo.cs" '[assembly: AssemblyKeyFile("AppVeyorBuild.snk")]'
-    }
+    Get-ChildItem .\src\ -Recurse -Filter AssemblyInfo.cs | ForEach-Object { Add-Content $_.FullName "`n[assembly: AssemblyKeyFile(`"Couchbase.snk`")]"}
 build:
   verbosity: minimal
 test: off
