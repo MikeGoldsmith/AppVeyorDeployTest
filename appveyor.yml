@@ -22,7 +22,7 @@ before_build:
 build_script:
 - cmd: msbuild AppVeyorDeploy.sln /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=AppVeyorBuild.snk
 test:
-  assenbies:
+  assemblies:
     - 'AppVeyorBuildTests.dll'
 before_deploy:
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION" }
