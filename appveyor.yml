@@ -16,11 +16,9 @@ install:
 - ps: nuget install secure-file -ExcludeVersion
 before_build:
 - ps: nuget restore
-- ps: .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild.snk
-- ps: Copy-Item .\AppVeyorBuild.snk .\AppVeyorBuild\AppVeyorBuild.snk
-- ps: Copy-Item .\AppVeyorBuild.snk .\AppVeyorBuildTests\AppVeyorBuild.snk
+- ps: .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild\AppVeyorBuild.snk
 build_script:
-- cmd: msbuild AppVeyorDeploy.sln /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=AppVeyorBuild.snk
+- cmd: msbuild AppVeyorBuild\AppVeyorBuild.csproj /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=AppVeyorBuild.snk
 after_build:
 - ps: nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION"
 - ps: Push-AppveyorArtifact *.nupkg
