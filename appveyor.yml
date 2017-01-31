@@ -26,7 +26,7 @@ build_script:
 after_build:
 - ps: nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION"
 - ps: Push-AppveyorArtifact *.nupkg
-- ps: Compress-Archive -CompressionLevel Optimal -Path .\AppVeyorBuild\bin\Release\* -DestinationPath .\AppVeyorBuild.$env:APPVEYOR_BUILD_VERSION.zip
+- ps: Compress-Archive -CompressionLevel Optimal -Path .\AppVeyorBuild\bin\Release\* -DestinationPath .\AppVeyorBuilder.$env:APPVEYOR_BUILD_VERSION.zip
 - ps: Push-AppveyorArtifact *.zip
 test:
   assemblies:
