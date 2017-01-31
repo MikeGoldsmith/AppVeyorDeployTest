@@ -35,7 +35,15 @@ before_deploy:
 - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget push *.nupkg $env:NugetApiKey -Source https://www.nuget.org/api/v2/package }
 deploy:
 - provider: GitHub
+  artifact: /.*\.nupkg/
   auth_token:
     secure: SKZPuqPpuYCGDlPa2hEJ6NmjNBWJ9J60/kM7Y5cEtvm3EHrYX5j3VhV2KV5os5gA
   on:
     appveyor_repo_tag: true
+- provider: NuGet
+    api_key:
+      secure: coCGHSV1BluFzO5o8njBGZ9aS33VrklF+4geB+9U5NPiQSbntUcywtOXKGIIc4KQ
+    skip_symbols: true
+    artifact: /.*\.nupkg/
+    on:
+      appveyor_repo_tag: true
