@@ -1,7 +1,7 @@
-version: 2.1.4.{build}
+version: 2.3.16.{build}
 configuration: Release
 init:
-- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME".TrimStart("v") }
+  - ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME".TrimStart("v") }
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -9,41 +9,35 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 environment:
-  NugetApiKey:
-    secure: coCGHSV1BluFzO5o8njBGZ9aS33VrklF+4geB+9U5NPiQSbntUcywtOXKGIIc4KQ
   SnkSecret:
     secure: j9oVsjzAy5p4Te5FdRAuZQ==
 install:
-- ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe
-- ps: nuget install secure-file -ExcludeVersion
+  - ps: appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe
+  - ps: nuget install secure-file -ExcludeVersion
 before_build:
-- ps: nuget restore
-- ps: .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild.snk
-- ps: Copy-Item .\AppVeyorBuild.snk .\AppVeyorBuild\AppVeyorBuild.snk
-- ps: Copy-Item .\AppVeyorBuild.snk .\AppVeyorBuildTests\AppVeyorBuild.snk
+  - ps: nuget restore
+  - ps: .\secure-file\tools\secure-file.exe -decrypt .\AppVeyorBuild\AppVeyorBuilder.snk.enc -secret $env:SnkSecret -out .\AppVeyorBuild.snk
+  - ps: Copy-Item .\AppVeyorBuild.snk .\AppVeyorBuild\AppVeyorBuild.snk
+  - ps: Copy-Item .\AppVeyorBuild.snk .\AppVeyorBuildTests\AppVeyorBuild.snk
 build_script:
-- cmd: msbuild AppVeyorDeploy.sln /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=AppVeyorBuild.snk
+  - cmd: msbuild AppVeyorDeploy.sln /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=AppVeyorBuild.snk
 after_build:
-- ps: nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION"
-- ps: Push-AppveyorArtifact *.nupkg
-- ps: Compress-Archive -CompressionLevel Optimal -Path .\AppVeyorBuild\bin\Release\* -DestinationPath .\AppVeyorBuilder.$env:APPVEYOR_BUILD_VERSION.zip
-- ps: Push-AppveyorArtifact *.zip
-test:
-  assemblies:
-    - 'AppVeyorBuildTests.dll'
-before_deploy:
-- ps: if ($env:APPVEYOR_REPO_TAG -eq "true") { nuget push *.nupkg $env:NugetApiKey -Source https://www.nuget.org/api/v2/package }
+  - ps: nuget pack .\AppVeyorBuild\AppVeyorBuild.nuspec -Properties "Configuration=Release;Platform=AnyCPU;" -version "$env:APPVEYOR_BUILD_VERSION"
+  - ps: Push-AppveyorArtifact *.nupkg
+  - ps: Compress-Archive -CompressionLevel Optimal -Path .\AppVeyorBuild\bin\Release\* -DestinationPath .\AppVeyorBuilder.$env:APPVEYOR_BUILD_VERSION.zip
+  - ps: Push-AppveyorArtifact *.zip
+test: off
 deploy:
-- provider: GitHub
-  artifact: /.*\.nupkg/
-  auth_token:
-    secure: SKZPuqPpuYCGDlPa2hEJ6NmjNBWJ9J60/kM7Y5cEtvm3EHrYX5j3VhV2KV5os5gA
-  on:
-    appveyor_repo_tag: true
+  - provider: GitHub
+    artifact: /.*\.zip/
+    auth_token:
+      secure: SKZPuqPpuYCGDlPa2hEJ6NmjNBWJ9J60/kM7Y5cEtvm3EHrYX5j3VhV2KV5os5gA
+    on:
+      appveyor_repo_tag: true
 - provider: NuGet
-  api_key:
-    secure: coCGHSV1BluFzO5o8njBGZ9aS33VrklF+4geB+9U5NPiQSbntUcywtOXKGIIc4KQ
-  skip_symbols: true
-  artifact: /.*\.nupkg/
-  on:
-    appveyor_repo_tag: true
+    api_key:
+      secure: coCGHSV1BluFzO5o8njBGZ9aS33VrklF+4geB+9U5NPiQSbntUcywtOXKGIIc4KQ
+    skip_symbols: true
+    artifact: /.*\.nupkg/
+    on:
+      appveyor_repo_tag: true
