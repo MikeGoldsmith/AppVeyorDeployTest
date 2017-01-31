@@ -41,9 +41,9 @@ deploy:
   on:
     appveyor_repo_tag: true
 - provider: NuGet
-    api_key:
-      secure: coCGHSV1BluFzO5o8njBGZ9aS33VrklF+4geB+9U5NPiQSbntUcywtOXKGIIc4KQ
-    skip_symbols: true
-    artifact: /.*\.nupkg/
-    on:
-      appveyor_repo_tag: true
+  api_key:
+    secure: coCGHSV1BluFzO5o8njBGZ9aS33VrklF+4geB+9U5NPiQSbntUcywtOXKGIIc4KQ
+  skip_symbols: true
+  artifact: /.*\.nupkg/
+  on:
+    appveyor_repo_tag: true
