@@ -24,9 +24,7 @@ after_build:
 - ps: Push-AppveyorArtifact *.nupkg
 - ps: Compress-Archive -CompressionLevel Optimal -Path .\AppVeyorBuild\bin\Release\* -DestinationPath .\AppVeyorBuilder.$env:APPVEYOR_BUILD_VERSION.zip
 - ps: Push-AppveyorArtifact *.zip
-test:
-  assemblies:
-    - 'AppVeyorBuildTests.dll'
+test: off
 deploy:
 - provider: GitHub
   artifact: /.*\.zip/
