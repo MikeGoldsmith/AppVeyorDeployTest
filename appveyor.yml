@@ -3,9 +3,9 @@ configuration: Release
 init:
 - ps: >-
   if ($env:APPVEYOR_REPO_TAG -eq "true") {
-    Update-AppveyorBuild -Version "${env:APPVEYOR_REPO_TAG_NAME}"
+    Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
   }
-  Write-Host "Build version set to: ${env:APPVEYOR_REPO_TAG_NAME}"
+  Write-Host "Build version set to $env:APPVEYOR_REPO_TAG_NAME"
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
